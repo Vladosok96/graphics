@@ -1,0 +1,17 @@
+﻿  main.cpp
+E:\VisualProjects\graphics\graphics\main.cpp(141,43): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+E:\VisualProjects\graphics\graphics\main.cpp(141,35): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+  Создание кода
+  3 of 77 functions ( 3.9%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  graphics.vcxproj -> E:\VisualProjects\graphics\x64\Release\graphics.exe
