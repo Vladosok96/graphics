@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <complex>
 #include <thread>
 
 template <class T>
@@ -23,7 +24,7 @@ public:
 
 
 // Some necessary global variables
-double zoom = 0.01;
+long double zoom = 0.01;
 
 sf::Vector2<double> camera(0, 0);
 sf::Vector2<double> last_camera = camera;
@@ -31,7 +32,7 @@ sf::Vector2i last_mouse_position;
 
 int screen_size[2] = { 800, 600 };
 sf::Vector2i piece_size(screen_size[0] / 3, screen_size[1] / 3);
-int detail = 1;
+int detail = 2, mand_quallity = 50;
 
 bool left_pressed = false, right_pressed = false;
 
@@ -40,33 +41,33 @@ std::thread t1, t2, t3, t4, t5, t6, t7, t8, t9;
 sf::Image screen_image;
 
 
-double complex_abs(double d, double m) {
-    return sqrt(d * d + m * m);
-}
-
-
-int increase_rate(double x, double y) {
-    double d = 0, m = 0, z = 0;
-    for (int iter = 0; iter < 30 && complex_abs(d, m) < 2; iter++) {
-        d = d * d + x;
-        m += y;
+long double increase_rate(long double x, long double y, int quallity) {
+    int iter;
+    std::complex<long double> N = 0, last_abs = 0;
+    for (iter = 0; iter < quallity && abs(N) < 2; iter++) {
+        last_abs = abs(N);
+        N = N * N + std::complex<long double>(x, y);
     }
-    if (complex_abs(d, m) < 2) return 255;
-    else return 0;
+    if (abs(N) < 2) return 0;
+    else {
+        return (last_abs / abs(N)).real();
+        //return iter / quallity;
+    }
 }
 
 
 void piece_drawing(int x_offset, int y_offset) {
     sf::Color pixelColor;
 
-    for (int y = 0; y < piece_size.y; y += detail) {
-        for (int x = 0; x < piece_size.x; x += detail) {
-            pixelColor.r = 0;
-            pixelColor.g = 0;
-            pixelColor.b = increase_rate(zoom * double(x - camera.x + piece_size.x * x_offset), zoom * double(y - camera.y + piece_size.y * y_offset)) ;
+    for (long double y = 0; y < piece_size.y; y += detail) {
+        for (long double x = 0; x < piece_size.x; x += detail) {
+            long double rate = increase_rate(zoom * long double(x - camera.x + piece_size.x * x_offset), zoom * long double(y - camera.y + piece_size.y * y_offset), mand_quallity);
+            pixelColor.r = 255 * sin(3.14159 * rate * 0.3);
+            pixelColor.g = 255 * sin(3.14159 * rate * 0.6);
+            pixelColor.b = 255 * sin(3.14159 * rate * 0.9);
 
-            for (int i = y; i < (y + detail); i++) {
-                for (int j = x; j < (x + detail); j++) {
+            for (long double i = y; i < (y + detail); i++) {
+                for (long double j = x; j < (x + detail); j++) {
                     screen_image.setPixel(j + (x_offset * piece_size.x), i + (y_offset * piece_size.y), pixelColor);
 
                 }
@@ -86,20 +87,16 @@ int main() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
-            if (event.type == sf::Event::MouseButtonReleased)
-            {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
+            if (event.type == sf::Event::MouseButtonReleased) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
                     left_pressed = false;
                 }
                 if (event.mouseButton.button == sf::Mouse::Right) {
                     right_pressed = false;
                 }
             }
-            if (event.type == sf::Event::MouseButtonPressed)
-            {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
                     left_pressed = true;
                     last_mouse_position = sf::Mouse::getPosition();
                     last_camera = camera;
@@ -108,8 +105,7 @@ int main() {
                     right_pressed = true;
                 }
             }
-            if (event.type == sf::Event::MouseWheelMoved)
-            {
+            if (event.type == sf::Event::MouseWheelMoved) {
                 if (event.mouseWheel.delta < 0) {
                     zoom *= 1.1;               
                     camera.x /= 1.1;           
@@ -119,6 +115,14 @@ int main() {
                     zoom /= 1.1;
                     camera.x *= 1.1;
                     camera.y *= 1.1;
+                }
+            }
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Up) {
+                    mand_quallity += 3;
+                }
+                if (event.key.code == sf::Keyboard::Down) {
+                    mand_quallity -= 3;
                 }
             }
         }
@@ -132,8 +136,8 @@ int main() {
 
 
         ////// Logic
-        int camera_x = int(camera.x);
-        int camera_y = int(camera.y);
+        long double camera_x = long double(camera.x);
+        long double camera_y = long double(camera.y);
         
 
         ////// Drawing
