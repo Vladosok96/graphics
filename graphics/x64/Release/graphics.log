@@ -1,22 +1,16 @@
 ﻿  main.cpp
-E:\VisualProjects\graphics\graphics\main.cpp(65,32): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(66,32): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(67,32): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(71,76): warning C4244: аргумент: преобразование "long double" в "unsigned int", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(71,45): warning C4244: аргумент: преобразование "long double" в "unsigned int", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(145,43): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
-E:\VisualProjects\graphics\graphics\main.cpp(145,35): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
-          with
-          [
-              T=float
-          ]
+E:\VisualProjects\graphics\graphics\main.cpp(71,32): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(72,32): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(73,32): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(77,46): warning C4244: аргумент: преобразование "long double" в "unsigned int", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(77,43): warning C4244: аргумент: преобразование "long double" в "unsigned int", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(65,22): warning C4101: y_v: неиспользованная локальная переменная
+E:\VisualProjects\graphics\graphics\main.cpp(65,17): warning C4101: x_v: неиспользованная локальная переменная
+E:\VisualProjects\graphics\graphics\main.cpp(118,51): warning C4305: -=: усечение из "double" в "float"
+E:\VisualProjects\graphics\graphics\main.cpp(126,51): warning C4305: +=: усечение из "double" в "float"
   Создание кода
-  5 of 95 functions ( 5.3%) were compiled, the rest were copied from previous compilation.
-    3 functions were new in current compilation
-    4 functions had inline decision re-evaluated but remain unchanged
+  1 of 98 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   graphics.vcxproj -> E:\VisualProjects\graphics\x64\Release\graphics.exe

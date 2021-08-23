@@ -24,21 +24,25 @@ public:
 
 
 // Some necessary global variables
-long double zoom = 0.01;
+long double zoom = 0.005;
 
-sf::Vector2<double> camera(0, 0);
-sf::Vector2<double> last_camera = camera;
+sf::Vector2<long double> camera(600, 400);
+sf::Vector2<long double> last_camera = camera;
 sf::Vector2i last_mouse_position;
 
-int screen_size[2] = { 800, 600 };
+int screen_size[2] = { 1200, 800 };
 sf::Vector2i piece_size(screen_size[0] / 3, screen_size[1] / 3);
-int detail = 2, mand_quallity = 50;
+int detail = 10;
+float mand_quallity_multpler = 1;
 
 bool left_pressed = false, right_pressed = false;
+bool optimization = true;
 
 std::thread t1, t2, t3, t4, t5, t6, t7, t8, t9;
 
 sf::Image screen_image;
+sf::Texture screen_texture;
+sf::Sprite screen_sprite;
 
 
 long double increase_rate(long double x, long double y, int quallity) {
@@ -58,17 +62,19 @@ long double increase_rate(long double x, long double y, int quallity) {
 
 void piece_drawing(int x_offset, int y_offset) {
     sf::Color pixelColor;
-
-    for (long double y = 0; y < piece_size.y; y += detail) {
-        for (long double x = 0; x < piece_size.x; x += detail) {
-            long double rate = increase_rate(zoom * long double(x - camera.x + piece_size.x * x_offset), zoom * long double(y - camera.y + piece_size.y * y_offset), mand_quallity);
+    long double x_v, y_v;
+    for (long double y = piece_size.y * y_offset; y < piece_size.y + piece_size.y * y_offset && y < screen_size[1] - detail; y += detail) {
+        for (long double x = piece_size.x * x_offset; x < piece_size.x + piece_size.x * x_offset && x < screen_size[0] - detail; x += detail) {
+            //x_v = x/* + long double(screen_size[0]) * zoom * 10*/;
+            //y_v = y/* + long double(screen_size[1]) * zoom * 10*/;
+            long double rate = increase_rate(zoom * long double(x - camera.x), zoom * long double(y - camera.y), int(mand_quallity_multpler * 10) + 5);
             pixelColor.r = 255 * sin(3.14159 * rate * 0.3);
             pixelColor.g = 255 * sin(3.14159 * rate * 0.6);
             pixelColor.b = 255 * sin(3.14159 * rate * 0.9);
 
             for (long double i = y; i < (y + detail); i++) {
                 for (long double j = x; j < (x + detail); j++) {
-                    screen_image.setPixel(j + (x_offset * piece_size.x), i + (y_offset * piece_size.y), pixelColor);
+                    screen_image.setPixel(j, i, pixelColor);
 
                 }
             }
@@ -106,23 +112,31 @@ int main() {
                 }
             }
             if (event.type == sf::Event::MouseWheelMoved) {
+                detail = 10;
+                optimization = true;
                 if (event.mouseWheel.delta < 0) {
+                    mand_quallity_multpler -= 0.02;
                     zoom *= 1.1;               
-                    camera.x /= 1.1;           
-                    camera.y /= 1.1;           
+                    //camera.x += long double(screen_size[0] / 2) * zoom * 5;
+                    //camera.y += long double(screen_size[1] / 2) * zoom * 5;
+                    camera.x /= 1.1;
+                    camera.y /= 1.1;
                 }                              
-                else {                         
+                else {
+                    mand_quallity_multpler += 0.02;
                     zoom /= 1.1;
+                    //camera.x -= long double(screen_size[0] / 2) * zoom * 5;
+                    //camera.y -= long double(screen_size[1] / 2) * zoom * 5;
                     camera.x *= 1.1;
                     camera.y *= 1.1;
                 }
             }
             if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Up) {
-                    mand_quallity += 3;
+                if (event.key.code == sf::Keyboard::Left) {
+                    detail += 1;
                 }
-                if (event.key.code == sf::Keyboard::Down) {
-                    mand_quallity -= 3;
+                if (event.key.code == sf::Keyboard::Right) {
+                    if (detail > 1) detail -= 1;
                 }
             }
         }
@@ -138,39 +152,47 @@ int main() {
         ////// Logic
         long double camera_x = long double(camera.x);
         long double camera_y = long double(camera.y);
+        if (left_pressed) {
+            detail = 10;
+            optimization = true;
+        }
+        else {
+            if (detail > 1) detail -= 1;
+        }
         
 
         ////// Drawing
-        sf::RectangleShape rect;
-        rect.setSize(sf::Vector2f(detail, detail));
-        sf::Color pixelColor;
+        //sf::RectangleShape rect;
+        //rect.setSize(sf::Vector2f(detail, detail));
+        //sf::Color pixelColor;
 
-        t1 = std::thread(piece_drawing, 0, 0);
-        t1.join();
-        t2 = std::thread(piece_drawing, 0, 1);
-        t2.join();
-        t3 = std::thread(piece_drawing, 0, 2);
-        t3.join();
-        t4 = std::thread(piece_drawing, 1, 0);
-        t4.join();
-        t5 = std::thread(piece_drawing, 1, 1);
-        t5.join();
-        t6 = std::thread(piece_drawing, 1, 2);
-        t6.join();
-        t7 = std::thread(piece_drawing, 2, 0);
-        t7.join();
-        t8 = std::thread(piece_drawing, 2, 1);
-        t8.join();
-        t9 = std::thread(piece_drawing, 2, 2);
-        t9.join();
+        if (optimization) {
+            t1 = std::thread(piece_drawing, 0, 0);
+            t1.join();
+            t2 = std::thread(piece_drawing, 0, 1);
+            t2.join();
+            t3 = std::thread(piece_drawing, 0, 2);
+            t3.join();
+            t4 = std::thread(piece_drawing, 1, 0);
+            t4.join();
+            t5 = std::thread(piece_drawing, 1, 1);
+            t5.join();
+            t6 = std::thread(piece_drawing, 1, 2);
+            t6.join();
+            t7 = std::thread(piece_drawing, 2, 0);
+            t7.join();
+            t8 = std::thread(piece_drawing, 2, 1);
+            t8.join();
+            t9 = std::thread(piece_drawing, 2, 2);
+            t9.join();
 
-        sf::Texture screen_texture;
-        screen_texture.loadFromImage(screen_image);
-        sf::Sprite screen_sprite;
+            
+            screen_texture.loadFromImage(screen_image);
+            screen_sprite.setTexture(screen_texture);
 
-        screen_sprite.setTexture(screen_texture);
+            if (detail <= 1) optimization = false;
+        }
         window.draw(screen_sprite);
-
         window.display();
     }
 
