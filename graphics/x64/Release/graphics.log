@@ -1,22 +1,22 @@
 ﻿  main.cpp
-E:\VisualProjects\graphics\graphics\main.cpp(78,34): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(79,34): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
 E:\VisualProjects\graphics\graphics\main.cpp(80,34): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(84,46): warning C4244: аргумент: преобразование "long double" в "unsigned int", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(84,43): warning C4244: аргумент: преобразование "long double" в "unsigned int", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(97,82): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(81,34): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(82,34): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(86,46): warning C4244: аргумент: преобразование "long double" в "unsigned int", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(86,43): warning C4244: аргумент: преобразование "long double" в "unsigned int", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(99,82): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-E:\VisualProjects\graphics\graphics\main.cpp(97,58): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(99,58): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
   Создание кода
-  2 of 104 functions ( 1.9%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  13 of 101 functions (12.9%) were compiled, the rest were copied from previous compilation.
+    7 functions were new in current compilation
+    3 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   graphics.vcxproj -> E:\VisualProjects\graphics\x64\Release\graphics.exe

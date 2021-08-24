@@ -37,6 +37,7 @@ int screen_size[2] = { 1200, 800 };
 sf::Vector2i piece_size(screen_size[0] / 3, screen_size[1] / 3);
 int detail = 10;
 long double mand_quallity_multpler = 1;
+double color_multipler = 1;
 
 bool left_pressed = false, right_pressed = false;
 bool optimization = true;
@@ -53,17 +54,18 @@ sf::RectangleShape croshair(sf::Vector2f(4, 4));
 long double increase_rate(long double x, long double y, int quallity) {
     int iter;
     std::complex<long double> N = 0, last_N, last_abs = 0;
-    for (iter = 0; iter < quallity && abs(N) < 2; iter++) {
-        last_N = N;
+    for (iter = 0; iter < quallity && N.real() < std::complex<long double>(2, 0).real(); iter++) {
+        if (iter == 1) last_N = N;
         N = N * N + std::complex<long double>(x, y);
     }
-    if (abs(N) < 2) return 0;
-    else {
-        return (last_N / N).real();
-        //return abs(N);
-        //return (last_abs / abs(N)).real();
-        //return iter / quallity;
-    }
+    //return N.real() / 20;
+    return (last_N / N).real();
+    //return abs(std::complex<long double>(2, 0) / N);
+    //return (last_N / N).real();
+    //return (last_abs / abs(N)).real();
+    //return (abs(std::complex<long double>(2, 0)) / abs(N));
+    //return abs(N);
+    //return iter / quallity;
 }
 
 
@@ -74,7 +76,7 @@ void piece_drawing(int x_offset, int y_offset) {
         for (long double x = piece_size.x * x_offset; x < piece_size.x + piece_size.x * x_offset && x < screen_size[0] - detail; x += detail) {
             x_v = x - long double(screen_size[0]) / 2;
             y_v = y - long double(screen_size[1]) / 2;
-            long double rate = increase_rate(zoom * long double(x_v - camera.x), zoom * long double(y_v - camera.y), int(mand_quallity_multpler * 10) + 5) * 0.1;
+            long double rate = increase_rate(zoom * long double(x_v - camera.x), zoom * long double(y_v - camera.y), int(mand_quallity_multpler * 13) + 5) * 0.1;
             pixelColor.r = 255.0 * sin(PI2 * rate + (PI2 * 0.3) + (mand_quallity_multpler * 0.1));
             pixelColor.g = 255.0 * sin(PI2 * rate + (PI2 * 0.6) + (mand_quallity_multpler * 0.1));
             pixelColor.b = 255.0 * sin(PI2 * rate + (PI2 * 0.9) + (mand_quallity_multpler * 0.1));
@@ -123,13 +125,13 @@ int main() {
                 detail = 10;
                 optimization = true;
                 if (event.mouseWheel.delta < 0) {
-                    mand_quallity_multpler -= 0.033;
+                    mand_quallity_multpler -= 0.05;
                     zoom *= 1.1;               
                     camera.x /= 1.1;
                     camera.y /= 1.1;
                 }                              
                 else {
-                    mand_quallity_multpler += 0.033;
+                    mand_quallity_multpler += 0.05;
                     zoom /= 1.1;
                     camera.x *= 1.1;
                     camera.y *= 1.1;
