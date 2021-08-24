@@ -1,16 +1,22 @@
 ﻿  main.cpp
-E:\VisualProjects\graphics\graphics\main.cpp(71,32): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(72,32): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(73,32): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(77,46): warning C4244: аргумент: преобразование "long double" в "unsigned int", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(77,43): warning C4244: аргумент: преобразование "long double" в "unsigned int", возможна потеря данных
-E:\VisualProjects\graphics\graphics\main.cpp(65,22): warning C4101: y_v: неиспользованная локальная переменная
-E:\VisualProjects\graphics\graphics\main.cpp(65,17): warning C4101: x_v: неиспользованная локальная переменная
-E:\VisualProjects\graphics\graphics\main.cpp(118,51): warning C4305: -=: усечение из "double" в "float"
-E:\VisualProjects\graphics\graphics\main.cpp(126,51): warning C4305: +=: усечение из "double" в "float"
+E:\VisualProjects\graphics\graphics\main.cpp(78,34): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(79,34): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(80,34): warning C4244: =: преобразование "long double" в "sf::Uint8", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(84,46): warning C4244: аргумент: преобразование "long double" в "unsigned int", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(84,43): warning C4244: аргумент: преобразование "long double" в "unsigned int", возможна потеря данных
+E:\VisualProjects\graphics\graphics\main.cpp(97,82): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+E:\VisualProjects\graphics\graphics\main.cpp(97,58): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
   Создание кода
-  1 of 98 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
+  2 of 104 functions ( 1.9%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   graphics.vcxproj -> E:\VisualProjects\graphics\x64\Release\graphics.exe

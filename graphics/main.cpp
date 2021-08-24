@@ -3,6 +3,9 @@
 #include <complex>
 #include <thread>
 
+#define PI 3.14159
+#define PI2 PI * 2
+
 template <class T>
 class Vector4 {
 public:
@@ -26,14 +29,14 @@ public:
 // Some necessary global variables
 long double zoom = 0.005;
 
-sf::Vector2<long double> camera(600, 400);
+sf::Vector2<long double> camera(0, 0);
 sf::Vector2<long double> last_camera = camera;
 sf::Vector2i last_mouse_position;
 
 int screen_size[2] = { 1200, 800 };
 sf::Vector2i piece_size(screen_size[0] / 3, screen_size[1] / 3);
 int detail = 10;
-float mand_quallity_multpler = 1;
+long double mand_quallity_multpler = 1;
 
 bool left_pressed = false, right_pressed = false;
 bool optimization = true;
@@ -44,17 +47,21 @@ sf::Image screen_image;
 sf::Texture screen_texture;
 sf::Sprite screen_sprite;
 
+sf::RectangleShape croshair(sf::Vector2f(4, 4));
+
 
 long double increase_rate(long double x, long double y, int quallity) {
     int iter;
-    std::complex<long double> N = 0, last_abs = 0;
+    std::complex<long double> N = 0, last_N, last_abs = 0;
     for (iter = 0; iter < quallity && abs(N) < 2; iter++) {
-        last_abs = abs(N);
+        last_N = N;
         N = N * N + std::complex<long double>(x, y);
     }
     if (abs(N) < 2) return 0;
     else {
-        return (last_abs / abs(N)).real();
+        return (last_N / N).real();
+        //return abs(N);
+        //return (last_abs / abs(N)).real();
         //return iter / quallity;
     }
 }
@@ -65,12 +72,12 @@ void piece_drawing(int x_offset, int y_offset) {
     long double x_v, y_v;
     for (long double y = piece_size.y * y_offset; y < piece_size.y + piece_size.y * y_offset && y < screen_size[1] - detail; y += detail) {
         for (long double x = piece_size.x * x_offset; x < piece_size.x + piece_size.x * x_offset && x < screen_size[0] - detail; x += detail) {
-            //x_v = x/* + long double(screen_size[0]) * zoom * 10*/;
-            //y_v = y/* + long double(screen_size[1]) * zoom * 10*/;
-            long double rate = increase_rate(zoom * long double(x - camera.x), zoom * long double(y - camera.y), int(mand_quallity_multpler * 10) + 5);
-            pixelColor.r = 255 * sin(3.14159 * rate * 0.3);
-            pixelColor.g = 255 * sin(3.14159 * rate * 0.6);
-            pixelColor.b = 255 * sin(3.14159 * rate * 0.9);
+            x_v = x - long double(screen_size[0]) / 2;
+            y_v = y - long double(screen_size[1]) / 2;
+            long double rate = increase_rate(zoom * long double(x_v - camera.x), zoom * long double(y_v - camera.y), int(mand_quallity_multpler * 10) + 5) * 0.1;
+            pixelColor.r = 255.0 * sin(PI2 * rate + (PI2 * 0.3) + (mand_quallity_multpler * 0.1));
+            pixelColor.g = 255.0 * sin(PI2 * rate + (PI2 * 0.6) + (mand_quallity_multpler * 0.1));
+            pixelColor.b = 255.0 * sin(PI2 * rate + (PI2 * 0.9) + (mand_quallity_multpler * 0.1));
 
             for (long double i = y; i < (y + detail); i++) {
                 for (long double j = x; j < (x + detail); j++) {
@@ -87,6 +94,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(screen_size[0], screen_size[1]), "graph");
 
     screen_image.create(screen_size[0] + detail, screen_size[1] + detail, sf::Color(0, 0, 0));
+    croshair.setPosition(sf::Vector2f(screen_size[0] / 2 - 2, screen_size[1] / 2 - 2));
 
     while (window.isOpen()) {
         sf::Event event;
@@ -115,18 +123,14 @@ int main() {
                 detail = 10;
                 optimization = true;
                 if (event.mouseWheel.delta < 0) {
-                    mand_quallity_multpler -= 0.02;
+                    mand_quallity_multpler -= 0.033;
                     zoom *= 1.1;               
-                    //camera.x += long double(screen_size[0] / 2) * zoom * 5;
-                    //camera.y += long double(screen_size[1] / 2) * zoom * 5;
                     camera.x /= 1.1;
                     camera.y /= 1.1;
                 }                              
                 else {
-                    mand_quallity_multpler += 0.02;
+                    mand_quallity_multpler += 0.033;
                     zoom /= 1.1;
-                    //camera.x -= long double(screen_size[0] / 2) * zoom * 5;
-                    //camera.y -= long double(screen_size[1] / 2) * zoom * 5;
                     camera.x *= 1.1;
                     camera.y *= 1.1;
                 }
@@ -190,9 +194,11 @@ int main() {
             screen_texture.loadFromImage(screen_image);
             screen_sprite.setTexture(screen_texture);
 
+
             if (detail <= 1) optimization = false;
         }
         window.draw(screen_sprite);
+        window.draw(croshair);
         window.display();
     }
 
